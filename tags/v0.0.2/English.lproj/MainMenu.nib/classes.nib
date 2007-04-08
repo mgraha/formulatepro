@@ -1,0 +1,61 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                fileNewBug = id; 
+                placeImage = id; 
+                provideFeedback = id; 
+                showLicense = id; 
+                viewBugList = id; 
+            }; 
+            CLASS = AppDelegate; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_inspectorWindow" = NSPanel; 
+                "_placeImageMenuItem" = NSMenuItem; 
+                "_renderWindow" = NSWindow; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {checkFill = id; checkStroke = id; setStroke = id; stepStroke = id; }; 
+            CLASS = FPInspectorController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_fillCheckbox" = NSButton; 
+                "_fillColorWell" = NSColorWell; 
+                "_strokeCheckbox" = NSButton; 
+                "_widthLabel" = NSTextField; 
+                "_widthStepper" = NSStepper; 
+                "_widthTextField" = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FPTextRenderingView; LANGUAGE = ObjC; SUPERCLASS = NSTextView; }, 
+        {
+            ACTIONS = {chooseTool = id; }; 
+            CLASS = FPToolPaletteController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                arrowToolButton = NSButton; 
+                checkmarkToolButton = NSButton; 
+                ellipseToolButton = NSButton; 
+                rectangleToolButton = NSButton; 
+                squiggleToolButton = NSButton; 
+                stampToolButton = NSButton; 
+                textAreaToolButton = NSButton; 
+                textFieldToolButton = NSButton; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {
+            ACTIONS = {checkForUpdates = id; }; 
+            CLASS = SUUpdater; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}
