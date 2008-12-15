@@ -9,26 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import "FPDocumentView.h"
 
-// KVC keys
-extern NSString *FPGraphicBoundsKey;
-extern NSString *FPGraphicPageKey;
-extern NSString *FPGraphicDrawsFillKey;
-extern NSString *FPGraphicDrawsStrokeKey;
-extern NSString *FPGraphicHorizontallyFlippedKey;
-extern NSString *FPGraphicVerticallyFlippedKey;
-extern NSString *FPGraphicHidesWhenPrintingKey;
-extern NSString *FPGraphicStrokeWidthKey;
-extern NSString *FPGraphicFillColorKey;
-extern NSString *FPGraphicStrokeColorKey;
-
-// listeners on FPGraphicDrawingBoundsKey will be KVO-triggered
-// whenever any property of the object changes that causes it
-// to move.
-extern NSString *FPGraphicDrawingBoundsKey;
-// listeners on FPGraphicDrawingContentsKey will be KVO-triggered
-// when the content changes, but the graphic doesn't move
-extern NSString *FPGraphicDrawingContentsKey;
-
 @class MyPDFView;
 @class PDFPage;
 
@@ -45,13 +25,9 @@ enum {
 };
 
 @interface FPGraphic : NSObject {
-    BOOL _assignedToPage;
-    NSRect _bounds;  // bounds on page
-    unsigned int _page;  // which page
-
+    NSRect _bounds;
     NSRect _naturalBounds;
     NSRect _origBounds; // for bulk move operations
-
     struct __gFlags {
         unsigned int drawsFill:1;
         unsigned int drawsStroke:1;
@@ -65,54 +41,43 @@ enum {
     NSColor *_fillColor;  // STRONG
     NSColor *_strokeColor;  // STRONG
     int _knobMask;
+    
+    FPDocumentView *_docView;
+    BOOL _hasPage;
+    unsigned int _page;
 }
 
 - (id)copyWithZone:(NSZone *)zone;
-+ (FPGraphic *)graphic;
++ (FPGraphic *)graphicInDocumentView:(FPDocumentView *)docView;
 - (id)initWithGraphic:(FPGraphic *)graphic;
-- (id)init;
-+ (FPGraphic *)graphicFromArchivalDictionary:(NSDictionary *)dict;
-- (id)initWithArchivalDictionary:(NSDictionary *)dict;
+- (id)initInDocumentView:(FPDocumentView *)docView;
++ (FPGraphic *)graphicFromArchivalDictionary:(NSDictionary *)dict
+                              inDocumentView:(FPDocumentView *)docView;
+- (id)initWithArchivalDictionary:(NSDictionary *)dict
+                  inDocumentView:(FPDocumentView *)docView;
 + (NSString *)archivalClassName;
 - (NSDictionary *)archivalDictionary;
 
-- (NSString *)className;
-
-// Utility functions
-// these will trigger KVO notifications for KVC keys
-
-//- (BOOL)placeWithEvent:(FPMouseEventProxy *)eventProxy;
-//- (void)resizeWithEvent:(NSEvent *)theEvent byKnob:(int)knob;
+- (BOOL)placeWithEvent:(NSEvent *)theEvent;
+- (void)resizeWithEvent:(NSEvent *)theEvent byKnob:(int)knob;
 - (void)moveGraphicByX:(float)x byY:(float)y;
-- (void)setOrigin:(NSPoint)origin;
+- (void)reassignToPage:(unsigned int)page;
 
-// these functions return YES if the set caused the graphic to flip
-- (BOOL)setLeftAbs:(float)position;
-- (BOOL)setRightAbs:(float)position;
-- (BOOL)setTopAbs:(float)position;
-- (BOOL)setBottomAbs:(float)position;
-
-- (int)knobMask;
-
-// called so subclasses can cope. default implementation does nothing
 - (void)documentDidZoom;
 
 - (unsigned int)page;
-- (void)setPage:(unsigned int)page;
 
 - (void)draw:(BOOL)selected;
-//- (void)drawKnobs;
-//- (int)knobForEvent:(NSEvent *)theEvent;
-//- (NSRect)pageRectForKnob:(int)knob isBoundRect:(BOOL)isBound;
-
-- (NSRect)safeBounds;
-
-// KVC compliant setters/getters
+- (void)drawKnobs;
+- (int)knobForEvent:(NSEvent *)theEvent;
+- (NSRect)pageRectForKnob:(int)knob isBoundRect:(BOOL)isBound;
 
 - (BOOL)drawsStroke;
 - (void)setDrawsStroke:(BOOL)drawsStroke;
 - (NSRect)bounds;
 - (void)setBounds:(NSRect)bounds;
+- (NSRect)safeBounds;
+- (NSRect)boundsWithKnobs;
 - (float)strokeWidth;
 - (void)setStrokeWidth:(float)strokeWidth;
 - (NSColor *)strokeColor;
@@ -127,11 +92,6 @@ enum {
 - (void)setIsVerticallyFlipped:(BOOL)isVerticallyFlipped;
 - (BOOL)hidesWhenPrinting;
 - (void)setHidesWhenPrinting:(BOOL)hidesWhenPrinting;
-
-// only for getting, not setting
-- (NSRect)drawingBounds;
-
-// Editing
 
 - (BOOL)isEditable;
 - (void)startEditing;
