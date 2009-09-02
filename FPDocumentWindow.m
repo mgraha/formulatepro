@@ -32,6 +32,22 @@ enum {FPDeleteKey = 0x7f};
     return;
 }
 
+- (void)changeColor:(id)sender
+{
+  if ([_docView handleColorChange:[sender color]])
+    return;
+  DLog(@"default color changed. doc win\n");
+  NSColor *newColor = [sender color];
+  if (_defaultColor != newColor) {
+    [_defaultColor release];
+    _defaultColor = [newColor retain];
+  }
+}
+
+- (NSColor *)currentColor {
+  return _defaultColor;
+}
+
 - (FPDocumentView *)docView
 {
     return _docView;
@@ -52,6 +68,7 @@ enum {FPDeleteKey = 0x7f};
 {
     _sentQuickMove = NO;
     _defaultFont = [[NSFont userFontOfSize:0.0] retain];
+    _defaultColor = [[NSColor blackColor] retain];
 }
 
 - (void)keyDown:(NSEvent *)theEvent
@@ -64,7 +81,7 @@ enum {FPDeleteKey = 0x7f};
     (unsigned)NSDeleteFunctionKey);
     if (FPDeleteKey ==
         [[theEvent charactersIgnoringModifiers] characterAtIndex:0]) {
-        //[_docView deleteSelectedGraphics];
+        [_docView deleteSelectedGraphics];
     } else {
         // perhaps it's a keypress to select a tool
         [[FPToolPaletteController sharedToolPaletteController] keyDown:theEvent];
@@ -74,21 +91,21 @@ enum {FPDeleteKey = 0x7f};
 - (void)flagsChanged:(NSEvent *)theEvent
 {
     DLog(@"flags changed\n");
-//    if ((NO == _sentQuickMove) &&
-//        ([theEvent modifierFlags] & NSAlternateKeyMask) &&
-//        ([theEvent modifierFlags] & NSCommandKeyMask) &&
-//        ([_docView shouldEnterQuickMove])) {
-//        NSLog(@"got apple-option\n");
-//        [[NSNotificationCenter defaultCenter] postNotification:
-//            [NSNotification notificationWithName:FPBeginQuickMove
-//                                          object:self]];
-//        _sentQuickMove = YES;
-//    } else if (YES == _sentQuickMove) {
-//        NSLog(@"don't got apple-option\n");
-//        [[NSNotificationCenter defaultCenter] postNotification:
-//            [NSNotification notificationWithName:FPEndQuickMove object:self]];
-//        _sentQuickMove = NO;
-//    }
+    if ((NO == _sentQuickMove) &&
+        ([theEvent modifierFlags] & NSAlternateKeyMask) &&
+        ([theEvent modifierFlags] & NSCommandKeyMask) &&
+        ([_docView shouldEnterQuickMove])) {
+        NSLog(@"got apple-option\n");
+        [[NSNotificationCenter defaultCenter] postNotification:
+            [NSNotification notificationWithName:FPBeginQuickMove
+                                          object:self]];
+        _sentQuickMove = YES;
+    } else if (YES == _sentQuickMove) {
+        NSLog(@"don't got apple-option\n");
+        [[NSNotificationCenter defaultCenter] postNotification:
+            [NSNotification notificationWithName:FPEndQuickMove object:self]];
+        _sentQuickMove = NO;
+    }
 }
 
 @end

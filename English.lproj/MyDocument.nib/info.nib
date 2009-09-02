@@ -3,20 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>IBDocumentLocation</key>
-	<string>69 10 356 240 0 0 1280 778 </string>
+	<string>228 37 356 240 0 0 1280 778 </string>
+	<key>IBEditorPositions</key>
+	<dict>
+		<key>30</key>
+		<string>519 425 286 187 0 0 1280 778 </string>
+		<key>47</key>
+		<string>453 329 404 96 0 0 1280 778 </string>
+	</dict>
 	<key>IBFramework Version</key>
 	<string>481.0</string>
-	<key>IBLastKnownRelativeProjectPath</key>
-	<string>../../FormulatePro.xcodeproj</string>
-	<key>IBOldestOS</key>
-	<integer>5</integer>
 	<key>IBOpenObjects</key>
 	<array>
+		<integer>47</integer>
 		<integer>5</integer>
+		<integer>30</integer>
 	</array>
 	<key>IBSystem Version</key>
 	<string>8S2167</string>
-	<key>targetFramework</key>
-	<string>IBCocoaFramework</string>
 </dict>
 </plist>

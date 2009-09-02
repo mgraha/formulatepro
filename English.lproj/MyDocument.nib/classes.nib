@@ -6,9 +6,10 @@
             SUPERCLASS = NSSegmentedControl; 
         }, 
         {
+            ACTIONS = {placeImage = id; zoomIn = id; zoomOut = id; }; 
             CLASS = FPDocumentView; 
             LANGUAGE = ObjC; 
-            OUTLETS = {"_scrollView" = NSScrollView; }; 
+            OUTLETS = {"_doc" = MyDocument; "_scrollView" = NSScrollView; }; 
             SUPERCLASS = NSView; 
         }, 
         {
@@ -17,19 +18,27 @@
             OUTLETS = {"_docView" = FPDocumentView; }; 
             SUPERCLASS = NSWindow; 
         }, 
-        {
-            CLASS = FPWindowController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {"_graphicsController" = NSArrayController; "_graphicsView" = FPDocumentView; }; 
-            SUPERCLASS = NSWindowController; 
-        }, 
-        {
-            ACTIONS = {factorButtonChanged = id; zoomIn = id; zoomOut = id; }; 
-            CLASS = FPZoomingScrollView; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSScrollView; 
-        }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                placeImage = id; 
+                toggleContinuous = id; 
+                toggleOneUpTwoUpBookMode = id; 
+                zoomIn = id; 
+                zoomOut = id; 
+            }; 
+            CLASS = MyDocument; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_document_view" = FPDocumentView; 
+                "_document_window" = NSWindow; 
+                "_one_up_vs_two_up_vs_book" = NSSegmentedControl; 
+                "_print_accessory_view" = NSView; 
+                "_single_vs_continuous" = NSSegmentedControl; 
+            }; 
+            SUPERCLASS = NSDocument; 
+        }, 
+        {CLASS = MyPDFView; LANGUAGE = ObjC; SUPERCLASS = PDFView; }, 
         {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }
     ); 
     IBVersion = 1; 
