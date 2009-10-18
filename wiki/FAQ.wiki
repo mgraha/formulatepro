@@ -3,7 +3,7 @@
 
 = Do you offer !FormulatePro for Mac OS X 10.3 (Panther) or lower? =
 
-Sorry, but !FormulatePro is Tiger and Leopard-only. !FormulatePro uses Apple technology (specifically PDFKit) which is Tiger and Leopard-only, hence the requirement.
+Sorry, but !FormulatePro is Tiger, Leopard, and Snow Leopard only. !FormulatePro uses Apple technology (specifically PDFKit) which was first released as a component in Tiger, hence the requirement.
 
 = Is this page a good place to post my questions? =
 
